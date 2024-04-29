@@ -27,11 +27,18 @@ ARG DEV=false
 # you can run in multiple run command lines but this will add layering
 RUN python -m venv /py && \
     /py/bin/pip install --upgrade pip && \
+    # adding required dependencies for psycopg2
+    apk add --update --no-cache postgresql-client && \
+    apk add --update --no-cache --virtual .tmp-build-deps \
+        # below are the dependency packages needed for psycopg2
+        build-base postgresql-dev musl-dev && \
     /py/bin/pip install -r /tmp/requirements.txt && \
     if [ $DEV = "true" ]; \
         then /py/bin/pip install -r /tmp/requirements.dev.txt ; \
     fi && \
     rm -rf /tmp && \
+    # dependency packages are needed only for the install, so removing it
+    apk del .tmp-build-deps && \
     adduser \
         --disabled-password \
         --no-create-home \
