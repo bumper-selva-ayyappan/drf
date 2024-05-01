@@ -19,7 +19,9 @@ services:
     # this is the command to run to start the service but this can be overwritten when you run docker command 
     # if we dont specify the command during the docker-compose then it will use the command specified insider the docker-compose file
     command: >
-      sh -c "python manage.py runserver 0.0.0.0:8000"
+      sh -c "python manage.py wait_for_db &&
+            python manage.py migrate &&
+            python manage.py runserver 0.0.0.0:8000"
     environment:
       - DB_HOST=db
       - DB_NAME=devdb
