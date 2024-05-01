@@ -2,6 +2,8 @@
 [flake8]
     exclude = 
         migrations,
+        py,
         __pycache__,
         manage.py,
-        settings.py
+        settings.py,
+        /Users/engineerselva/dev/learning/drf/py/**
