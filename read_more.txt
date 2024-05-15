@@ -1,0 +1,14 @@
+1. ViewSet vs APIView
+2. Serializer
+3. router
+    router = DefaultRouter()
+    router.register('recipes', views.RecipeViewSet)
+4. The purpose of the below:
+    serializer_class = serializers.TagSerializer
+    queryset = Tag.objects.all()
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+5. nested serializers
+    read_only by default but can be modified to be writable with custom methods
+
