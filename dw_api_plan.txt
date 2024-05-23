@@ -1,0 +1,24 @@
+Project name: datahub
+App name: datawarehouse
+
+datahub/
+│
+├── datahub/
+│   ├── __init__.py
+│   ├── settings.py
+│   ├── urls.py
+│   ├── asgi.py
+│   └── wsgi.py
+│
+├── datawarehouse/
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── models.py
+│   ├── views.py
+│   ├── serializers.py
+│   ├── urls.py
+│   └── tests.py
+│
+├── manage.py
+└── requirements.txt
