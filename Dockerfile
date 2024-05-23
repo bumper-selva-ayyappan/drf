@@ -12,6 +12,7 @@ ENV PYTHONBUFFERED 1
 
 COPY ./requirements.txt /tmp/requirements.txt
 COPY ./requirements.dev.txt /tmp/requirements.dev.txt
+COPY ./scripts /scripts
 COPY ./app /app
 WORKDIR /app
 EXPOSE 8000
@@ -29,7 +30,7 @@ RUN python -m venv /py && \
     /py/bin/pip install --upgrade pip && \
     # adding required dependencies for psycopg2
     apk add --update --no-cache postgresql-client && \
-    apk add --update --no-cache --virtual .tmp-build-deps \
+    apk add --update --no-cache --virtual .tmp-build-deps linux-headers \
         # below are the dependency packages needed for psycopg2
         build-base postgresql-dev musl-dev && \
     /py/bin/pip install -r /tmp/requirements.txt && \
@@ -42,10 +43,17 @@ RUN python -m venv /py && \
     adduser \
         --disabled-password \
         --no-create-home \
-        django-user
+        django-user && \
+    mkdir -p /vol/web/media && \
+    mkdir -p /vol/web/static && \
+    chown -R django-user:django-user /vol && \
+    chmod -R 755 /vol && \
+    chmod -R +x /scripts
 
-ENV PATH="/py/bin:$PATH"
+ENV PATH="/scripts:/py/bin:$PATH"
 # ENV PATH="/py/bin:$PATH" prepends /py/bin to the existing PATH. This means that when the system is looking for executables, it will first look in /py/bin, then in the directories already listed in PATH
 # If you change it to ENV PATH="/py/bin", you're replacing the entire PATH with just /py/bin. This means the system will only look in /py/bin for executables and nowhere else. Any executables located in the directories previously included in PATH will not be found unless their full paths are specified.
 
 USER django-user
+# the below will be the default command runs but this can be overwritten using docker-compose file
+CMD ["run.sh"]

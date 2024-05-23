@@ -16,7 +16,7 @@ services:
     # map our directory app to docker containers app directory, any changes we make will reflect immediately
     volumes:
       - ./app:/app
-    # this is the command to run to start the service but this can be overwritten when you run docker command 
+    # this is the command to run to start the service but this can be overwritten when you run docker command
     # if we dont specify the command during the docker-compose then it will use the command specified insider the docker-compose file
     command: >
       sh -c "python manage.py wait_for_db &&
@@ -27,6 +27,7 @@ services:
       - DB_NAME=devdb
       - DB_USER=devuser
       - DB_PASS=changeme
+      - DEBUG=1
     depends_on:
       - db
 
